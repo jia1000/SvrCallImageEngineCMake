@@ -1,1 +1,4 @@
 .vs/SvrCallImageEngineCMake/
+CMakeFiles/
+.vs/
+CMakeCache.txt
