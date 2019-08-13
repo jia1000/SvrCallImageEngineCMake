@@ -20,3 +20,7 @@ src/DicomEngine/cmake_install.cmake
 Win32/
 src/cmake_install.cmake
 cmake_install.cmake
+src/EngineController/controller.sln
+src/EngineController/controller.vcxproj.filters
+src/EngineController/controller.vcxproj
+src/EngineController/controller.dir/
