@@ -7,12 +7,10 @@ find_package(GFLAGS)
 INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
 LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
 
-## 第三方库 GLOG
+## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
 INCLUDE_DIRECTORIES("C:/Program Files (x86)/glog/include")
-#INCLUDE_DIRECTORIES(${GLOG_INCLUDE_DIRS})
 LINK_DIRECTORIES("C:/Program Files (x86)/glog/lib")
-#LINK_DIRECTORIES(${GLOG_LIBRARIES})
 
 ## 第三方库 DCMTK
 find_package(DCMTK 3.6.2)
@@ -30,12 +28,12 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/tools				DIRSRCSdicom_engine)
 # 设置头文件搜索目录
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
-# 增加动态库
+# 生成动态库
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${DIRSRCSdicom_engine})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${DCMTK_LIBRARIES})
-#TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${GLOG_LIBRARIES}) #这个宏不起作用
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} glogd.lib)
 
+# 增加依赖库
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${DCMTK_LIBRARIES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} glogd.lib)
 
 # 为windows添加宏
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
