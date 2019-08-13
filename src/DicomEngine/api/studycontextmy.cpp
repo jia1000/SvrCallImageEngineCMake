@@ -15,11 +15,11 @@
 
 
 #include "studycontextmy.h"
-#include "tools/logger.h"
+//#include "tools/logger.h"
 
 void test_fucnt()
 {
-	CGLogger::Debug("this is test_fucnt()\n");
+	//CGLogger::Debug("this is test_fucnt()\n");
 }
 
 GNC::GCS::StudyContextMy::StudyContextMy()
@@ -62,7 +62,7 @@ void GNC::GCS::StudyContextMy::ReadDicomFile(const std::string path_file)
 		std::string str_tag("");
 
 		base.getTag(GKDCM_PatientName , str_tag);
-		CGLogger::Debug("patient name : %s(use DicomManager)\n" + str_tag);
+		//CGLogger::Debug("patient name : %s(use DicomManager)\n" + str_tag);
 
 		// modify one tag
 		GIL::DICOM::DicomDataset modify_base;	
