@@ -16,6 +16,7 @@ using namespace std;
 #include <io.h>
 #include <atlstr.h>
 #include <windows.h>
+#include <vector>
 
 inline bool CreateMultipleDirectory(const CString& szPath)
 {

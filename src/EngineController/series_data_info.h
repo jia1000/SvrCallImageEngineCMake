@@ -20,6 +20,7 @@
 #include "api/dicom/idicom.h"
 
 #include <map>
+#include <functional> // 包含greater
 
 #define USE_CALCULATE_CTV
 

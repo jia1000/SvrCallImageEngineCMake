@@ -16,7 +16,7 @@
 // #include <api/ientorno.h>
 #include <dcmtk/dcmdata/dcuid.h>
 #include <dcmtk/ofstd/ofstd.h>
-#include "sys/time.h"
+//#include "sys/time.h"
 #include "tools/logger.h"
 
 static const unsigned int maxUIDLen = 64;    /* A UID may be 64 chars or less */
@@ -80,10 +80,13 @@ char* GIL::DICOM::dcmGenerateUniqueIdentifierSelf(char* uid, const char* prefix)
 
     uid[0] = '\0'; /* initialize */
 
+#ifdef WIN32
+    unsigned long hostIdentifier = 0;//jia
+#else
     /* On 64-bit Linux, the "32-bit identifier" returned by gethostid() is
 		sign-extended to a 64-bit long, so we need to blank the upper 32 bits */
 	unsigned long hostIdentifier = OFstatic_cast(unsigned long, gethostid() & 0xffffffff);
-    
+#endif    
 	unsigned int counterOfCurrentUID = initCounterOfCurrentUID();
 
     unsigned int counter = counterOfCurrentUID++;

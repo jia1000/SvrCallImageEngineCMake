@@ -3,11 +3,17 @@
 #include "common_utils/common_header.h"
 #include "tools/logger.h"
 
+#ifdef WIN32
+#include <stdio.h>
+#include <io.h>
+#include <direct.h>
+#include <algorithm>
+#else
 #include <unistd.h>   // 创建文件夹 access 依赖的头文件
 #include <sys/stat.h> // 创建文件夹 mkdir  依赖的头文件
-
 #include <dirent.h>		//遍历文件夹下的文件 
 #include <sys/types.h>
+#endif
 
 #if USE_JSONCPP_LIB
 int GetJsonDataInt(const Json::Value& root, const std::string key, int& data)
@@ -106,7 +112,11 @@ void TryCreateDir(const std::string& dir)
 		{
 			CGLogger::Error("create folder: " +  dst_dir_path);
 			// 如果文件夹不存在，创建
+#ifdef WIN32
+			mkdir(dst_dir_path.c_str());
+#else
 			mkdir(dst_dir_path.c_str(), 0755);
+#endif
 		}
 	}
 }
@@ -127,6 +137,33 @@ std::string TryAppendPathSeparatorInTail(const std::string& path)
 	return path;
 }
 
+#ifdef WIN32
+int ListDir(std::string path, std::vector<std::string>& fileList)
+{
+	char szFind[MAX_PATH];
+	WIN32_FIND_DATA FindFileData;
+
+	strcpy(szFind,path.c_str());
+	strcat(szFind,"\\*.*");
+
+	HANDLE hFind=::FindFirstFile(szFind,&FindFileData);
+	if(INVALID_HANDLE_VALUE == hFind)    return -1;
+
+	while(true)
+	{
+		if(!(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+		{
+			fileList.push_back(FindFileData.cFileName);
+		}
+		if(!FindNextFile(hFind,&FindFileData))    
+		{
+			break;
+		}
+	}
+	FindClose(hFind);
+	return 1;
+}
+#else
 int ListDir(std::string path, std::vector<std::string>& files)
 {
 	DIR *dir = opendir(path.c_str());
@@ -144,7 +181,7 @@ int ListDir(std::string path, std::vector<std::string>& files)
 		{
 			break;
 		}
-		
+
 		if (DT_REG == pDir->d_type)
 		{
 			files.push_back(pDir->d_name);
@@ -154,3 +191,4 @@ int ListDir(std::string path, std::vector<std::string>& files)
 
 	return 1;
 }
+#endif

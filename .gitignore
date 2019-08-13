@@ -30,3 +30,8 @@ src/ImagingEngineLib/ImagingEngineLib.sln
 src/ImagingEngineLib/ImagingEngineLib.dir/
 lib/Debug/ImagingEngineLib.lib
 lib/Debug/ImagingEngineLib.exp
+lib/Debug/
+ZERO_CHECK.vcxproj.user
+ALL_BUILD.vcxproj.user
+src/ImagingEngineLib/ImagingEngineLib.vcxproj.user
+src/EngineController/controller.vcxproj.user

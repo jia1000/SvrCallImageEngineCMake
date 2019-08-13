@@ -23,13 +23,17 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/io					DIRSRCSdicom_engine)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/iod  				DIRSRCSdicom_engine)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/api/dicom 			DIRSRCSdicom_engine)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/main/controllers  	DIRSRCSdicom_engine)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/tools				DIRSRCSdicom_engine)
+#aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../tools				DIRSRCSdicom_engine)
 
 # 设置头文件搜索目录
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+# 包含"tools/logger.h"
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../)
+
 
 # 生成动态库
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${DIRSRCSdicom_engine})
+#ADD_LIBRARY(${PROJECT_NAME} SHARED ${DIRSRCSdicom_engine})
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${DIRSRCSdicom_engine})
 
 # 增加依赖库
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${DCMTK_LIBRARIES})
