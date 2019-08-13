@@ -24,3 +24,9 @@ src/EngineController/controller.sln
 src/EngineController/controller.vcxproj.filters
 src/EngineController/controller.vcxproj
 src/EngineController/controller.dir/
+src/ImagingEngineLib/ImagingEngineLib.vcxproj.filters
+src/ImagingEngineLib/ImagingEngineLib.vcxproj
+src/ImagingEngineLib/ImagingEngineLib.sln
+src/ImagingEngineLib/ImagingEngineLib.dir/
+lib/Debug/ImagingEngineLib.lib
+lib/Debug/ImagingEngineLib.exp
