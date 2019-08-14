@@ -24,6 +24,18 @@ PROJECT ("SvrCallImageEngineCMake")
  SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
  SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+# 设置各个项目名称
+SET(PROJECT_NAME_APP_EXE 			"appexe")
+SET(PROJECT_NAME_CONTROLLER 		"controller")
+SET(PROJECT_NAME_DICOM_ENGINE 		"dicom_engine")
+SET(PROJECT_NAME_IMAGINGENGINELIB 	"ImagingEngineLib")
+
+# 设置第三方依赖库的名称
+SET(PROJECT_NAME_GLOG_LIB 	"glogd.lib")
+
+# 设置第三方库的路径
+SET(THIRD_LIB_GLOG_INCLUDE_DIRECTORIES   "C:/Program Files (x86)/glog/include")
+SET(THIRD_LIB_GLOG_LINK_DIRECTORIES   	 "C:/Program Files (x86)/glog/lib")
 
 # 包含源文件。
 ADD_SUBDIRECTORY ("src")

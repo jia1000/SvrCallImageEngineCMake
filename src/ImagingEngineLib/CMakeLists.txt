@@ -7,7 +7,7 @@ add_definitions(-std=c++11)
 
 
 # project name
-project (ImagingEngineLib)
+project (${PROJECT_NAME_IMAGINGENGINELIB})
 
 # 设置编译器选项：O3优化，显示所有警告
 set(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -Wall") 
@@ -27,8 +27,8 @@ LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
 
 ## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
-INCLUDE_DIRECTORIES("C:/Program Files (x86)/glog/include")
-LINK_DIRECTORIES("C:/Program Files (x86)/glog/lib")
+INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
+LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
 
 # >>引用VTK
 find_package(VTK 7.1 REQUIRED)
@@ -115,7 +115,7 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES})
 
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
-	target_link_libraries(${PROJECT_NAME} glogd.lib)
+	target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME_GLOG_LIB})
 ELSE()
 	target_link_libraries(${PROJECT_NAME} libuuid.so)
 	target_link_libraries(${PROJECT_NAME} /usr/local/lib/libgflags.so)
