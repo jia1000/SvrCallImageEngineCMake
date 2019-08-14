@@ -40,3 +40,4 @@ src/appexe.vcxproj.user
 src/appexe.sln
 src/appexe.vcxproj
 src/appexe.vcxproj.filters
+src/thirdparty/3rddll/

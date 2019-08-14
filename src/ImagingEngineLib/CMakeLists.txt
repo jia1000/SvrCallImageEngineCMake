@@ -94,7 +94,6 @@ aux_source_directory(./exception SRC_LIST)
 add_compile_options(-fPIC)
 
 # >>生成静态库
-#add_library(${PROJECT_NAME} SHARED ${SRC_LIST})
 add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)

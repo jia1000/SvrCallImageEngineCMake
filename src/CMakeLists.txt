@@ -8,20 +8,17 @@ project (appexe)
 find_package(GFLAGS)
 INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
 LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
-#LINK_DIRECTORIES("C:/Program Files (x86)/gflags/bin")
 
 ## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
 INCLUDE_DIRECTORIES("C:/Program Files (x86)/glog/include")
 LINK_DIRECTORIES("C:/Program Files (x86)/glog/lib")
-LINK_DIRECTORIES("C:/Program Files (x86)/glog/bin")
 
 ## 第三方库 DCMTK
 find_package(DCMTK 3.6.2)
 link_libraries(${DCMTK_LIBRARIES})
 INCLUDE_DIRECTORIES(${DCMTK_INCLUDE_DIRS})
 LINK_DIRECTORIES("C:/Program Files (x86)/DCMTK/lib")
-LINK_DIRECTORIES("C:/Program Files (x86)/DCMTK/bin")
 
 ## 第三方库 VTK
 find_package(VTK 7.1.0)
