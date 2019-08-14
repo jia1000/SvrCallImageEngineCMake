@@ -35,3 +35,8 @@ ZERO_CHECK.vcxproj.user
 ALL_BUILD.vcxproj.user
 src/ImagingEngineLib/ImagingEngineLib.vcxproj.user
 src/EngineController/controller.vcxproj.user
+src/appexe.dir/
+src/appexe.vcxproj.user
+src/appexe.sln
+src/appexe.vcxproj
+src/appexe.vcxproj.filters
