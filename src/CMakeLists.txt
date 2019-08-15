@@ -45,6 +45,8 @@ ADD_SUBDIRECTORY("DicomEngine")
 ADD_SUBDIRECTORY("EngineController")
 ADD_SUBDIRECTORY("ImagingEngineLib")
 
+# 包含"tools/logger.h"
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/)
 # 包含DicomEngine项目路径
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/DicomEngine)
 # 包含ImagingEngineLib项目路径
@@ -54,6 +56,9 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/common_utils)
 
 # 包含lib/debug文件夹下的各个项目库
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../lib/debug)
+
+# 包含SvrJava文件夹
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../SvrJava)
 
 # jni.h文件的依赖
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
@@ -85,12 +90,24 @@ ELSE()
 		)
 ENDIF()
 	
+
+# 生成SvrCallImageEngine库
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# do nothing
+ELSE()
+	add_compile_options(-fPIC)
+	add_library(SvrCallImageEngine SHARED SvrJava/com_deepwise_cta_component_rebuild_SvrCallImageEngine.cpp)
+	TARGET_LINK_LIBRARIES(SvrCallImageEngine  ${PROJECT_NAME_CONTROLLER}) 
+	# google breakpad dump
+	# TARGET_LINK_LIBRARIES(SvrCallImageEngine  breakpad_client.a) 
+ENDIF()
+
 # 指定生成目标
 add_executable(${PROJECT_NAME} main.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME_CONTROLLER})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_NAME_DICOM_ENGINE})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ImagingEngineLib.lib)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_NAME_IMAGINGENGINELIB})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_NAME_GLOG_LIB})
 
 # 开启调试信息
@@ -107,13 +124,4 @@ ENDIF()
 
 
 
-IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
-	# do nothing
-ELSE()
-	# 生成SvrCallImageEngine库
-	add_compile_options(-fPIC)
-	add_library(SvrCallImageEngine SHARED SvrJava/com_deepwise_cta_component_rebuild_SvrCallImageEngine.cpp)
-	TARGET_LINK_LIBRARIES(SvrCallImageEngine  controller) 
-	# google breakpad dump
-	# TARGET_LINK_LIBRARIES(SvrCallImageEngine  breakpad_client.a) 
-ENDIF()
+

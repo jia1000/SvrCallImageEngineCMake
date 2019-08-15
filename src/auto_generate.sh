@@ -11,14 +11,16 @@ cd build
 cmake ..
 make -j
 
-cd ../..
+cd ../../..
 trymkdir build
+cd src
 ./generate_dicom_engine.sh
 
 echo ">>>>> 正在 复制build/.so 到output文件夹..."
+cd ..
 trymkdir output
-cp ./build/libcharls.so ./output/
-cp ./build/libcontroller.so ./output/
-cp ./build/libdicom_engine.so ./output/
-cp ./build/libImagingEngineLib.so ./output/
-cp ./build/libSvrCallImageEngine.so ./output/
+cp ./build/lib/libcharls.so ./output/
+cp ./build/lib/libcontroller.so ./output/
+cp ./build/lib/libdicom_engine.so ./output/
+cp ./build/lib/libImagingEngineLib.so ./output/
+cp ./build/lib/libSvrCallImageEngine.so ./output/

@@ -22,6 +22,8 @@ javah -jni com.deepwise.cta.component.rebuild.SvrCallImageEngine
 # 返回到批处理文件所在的路径
 cd ..
 
+cd ..
+
 echo ">>>>> 正在生成libcontroller.so..."
 # 进入build文件夹，开始生成.so
 trymkdir build

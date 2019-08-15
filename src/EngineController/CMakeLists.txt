@@ -36,8 +36,11 @@ link_libraries(${DCMTK_LIBRARIES})
 INCLUDE_DIRECTORIES(${DCMTK_INCLUDE_DIRS})
 
 ## 第三方库 VTK
-find_package(VTK 7.1.0)
-#find_package(VTK 8.0 REQUIRED)  # Linux上使用vtk8.0 （8.0需要使用vs2013以上编译)
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	find_package(VTK 7.1.0 REQUIRED)
+ELSE()
+	find_package(VTK 8.0 REQUIRED)  # Linux上使用vtk8.0 （8.0需要使用vs2013以上编译)
+ENDIF()
 link_libraries(${VTK_LIBRARIES})
 INCLUDE_DIRECTORIES(${VTK_INCLUDE_DIRS})
 
@@ -48,16 +51,22 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} 	DIRSRCS_Controller)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 # 生成动态库
-#ADD_LIBRARY(${PROJECT_NAME} SHARED ${DIRSRCS_Controller})
-ADD_LIBRARY(${PROJECT_NAME} STATIC ${DIRSRCS_Controller})
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	ADD_LIBRARY(${PROJECT_NAME} STATIC ${DIRSRCS_Controller})
+ELSE()
+	ADD_LIBRARY(${PROJECT_NAME} SHARED ${DIRSRCS_Controller})
+ENDIF()
+
 # 包含"tools/logger.h"
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/..)
 # 包含DicomEngine项目路径
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../DicomEngine)
 # 包含ImagingEngineLib项目路径
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../ImagingEngineLib/include)
 # 包含common_utils文件夹
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../common_utils)
+# 包含SvrJava文件夹
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../SvrJava)
 
 # 依赖其他项目lib路径
 link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty)

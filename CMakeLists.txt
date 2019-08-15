@@ -31,7 +31,12 @@ SET(PROJECT_NAME_DICOM_ENGINE 		"dicom_engine")
 SET(PROJECT_NAME_IMAGINGENGINELIB 	"ImagingEngineLib")
 
 # 设置第三方依赖库的名称
-SET(PROJECT_NAME_GLOG_LIB 	"glogd.lib")
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	SET(PROJECT_NAME_GLOG_LIB 	"glogd.lib")
+ELSE()
+	SET(PROJECT_NAME_GLOG_LIB 	"glog")
+ENDIF()
+
 
 # 设置第三方库的路径
 SET(THIRD_LIB_GLOG_INCLUDE_DIRECTORIES   "C:/Program Files (x86)/glog/include")

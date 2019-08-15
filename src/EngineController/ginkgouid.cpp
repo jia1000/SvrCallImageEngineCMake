@@ -16,7 +16,12 @@
 // #include <api/ientorno.h>
 #include <dcmtk/dcmdata/dcuid.h>
 #include <dcmtk/ofstd/ofstd.h>
-//#include "sys/time.h"
+
+#ifdef HAVE_WINDOWS_H
+#else
+#include "sys/time.h"
+#endif
+
 #include "tools/logger.h"
 
 static const unsigned int maxUIDLen = 64;    /* A UID may be 64 chars or less */

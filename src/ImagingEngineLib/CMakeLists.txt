@@ -32,13 +32,20 @@ ENDIF()
 
 ## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
-INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
-LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
-
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
+	LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
+ELSE()
+	# do nothing
+ENDIF()
 #########################################################################################################
 # >>引用VTK
-find_package(VTK 7.1 REQUIRED)
-#find_package(VTK 8.0 REQUIRED)  # Linux上使用vtk8.0 （8.0需要使用vs2013以上编译)
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	find_package(VTK 7.1.0 REQUIRED)
+ELSE()
+	find_package(VTK 8.0 REQUIRED)  # Linux上使用vtk8.0 （8.0需要使用vs2013以上编译)
+ENDIF()
+
 #find_package(glog REQUIRED)
 find_package (Threads)
 
@@ -119,7 +126,12 @@ aux_source_directory(./exception SRC_LIST)
 add_compile_options(-fPIC)
 
 # >>生成静态库
-add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
+ELSE()
+	add_library(${PROJECT_NAME} SHARED ${SRC_LIST})
+ENDIF()
+
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
