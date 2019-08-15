@@ -22,14 +22,20 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../thirdparty)
 #########################################################################################################
 ## 第三方库 GFLAGS
 find_package(GFLAGS)
-INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
-LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
+	LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
+ELSE()
+	# do nothing
+ENDIF()
+
 
 ## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
 INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
 LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
 
+#########################################################################################################
 # >>引用VTK
 find_package(VTK 7.1 REQUIRED)
 #find_package(VTK 8.0 REQUIRED)  # Linux上使用vtk8.0 （8.0需要使用vs2013以上编译)
@@ -37,14 +43,15 @@ find_package(VTK 7.1 REQUIRED)
 find_package (Threads)
 
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# do nothing
 ELSE()
-#	vtk_module_config(VTK
-#	  vtkCommonCore
-#	  vtkIOImage
-#	  vtkIOXML
-#	  vtkInteractionWidgets
-#	  vtkRenderingVolume${VTK_RENDERING_BACKEND}
-#	)
+	vtk_module_config(VTK
+	  vtkCommonCore
+	  vtkIOImage
+	  vtkIOXML
+	  vtkInteractionWidgets
+	  vtkRenderingVolume${VTK_RENDERING_BACKEND}
+	)
 ENDIF()
 #########################################################################################################
 
@@ -55,7 +62,6 @@ include(${VTK_USE_FILE})
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../common_utils)
 	INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
-
 ELSE()
 	# 添加头文件目录
 	include_directories(
@@ -70,6 +76,25 @@ ELSE()
 		)
 ENDIF()
 #########################################################################################################
+
+
+#########################################################################################################
+# >>调用xxx子目录的CMakeLists.txt执行
+##add_subdirectory(actor)
+##add_subdirectory(builder)
+#add_subdirectory(batch)
+#add_subdirectory(control)
+#add_subdirectory(data)
+#add_subdirectory(filter)
+#add_subdirectory(io)
+#add_subdirectory(orientation)
+#add_subdirectory(processing)
+#add_subdirectory(render)
+#add_subdirectory(tools)
+#add_subdirectory(bitmap)
+#add_subdirectory(thread)
+#########################################################################################################
+
 
 #########################################################################################################
 # >>添加源文件路径下所有源文件存放到变量中(*.c && *.cpp)，当然也可以手动一个个文件添加进来
@@ -122,3 +147,77 @@ ELSE()
 	target_link_libraries(${PROJECT_NAME} /usr/local/lib/libglog.so)
 
 ENDIF()
+
+#########################################################################################################
+
+
+# 但是可以通过下面的命令更改静态库target生成的库名，这样就和动态库的名字一样的了
+#SET_TARGET_PROPERTIES(mymath_static PROPERTIES OUTPUT_NAME "mymath") 
+
+
+#########################################################################################################
+# CAMKE INSTALL 指令格式
+# >>目标文件的安装
+#INSTALL(TARGETS targets...
+#        [[ARCHIVE|LIBRARY|RUNTIME]
+#                   [DESTINATION <dir>]
+#                   [PERMISSIONS permissions...]
+#                   [CONFIGURATIONS
+#        [Debug|Release|...]]
+#                   [COMPONENT <component>]
+#                   [OPTIONAL]
+#                ] [...])
+# 安装静态库
+#install(TARGETS ImagingEngineLib
+#    ARCHIVE DESTINATION lib/imaging_engine
+#)
+# 安装动态库
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# do nothing
+ELSE()
+	install(TARGETS ImagingEngineLib
+		LIBRARY DESTINATION lib/imaging_engine
+	)
+ENDIF()
+
+
+# >>普通文件的安装
+# 可用于安装一般文件，并可以指定访问权限，文件名是此指令所在路径下的相对路径。
+# 如果默认不定义权限PERMISSIONS，安装后的权限为,OWNER_WRITE,OWNER_READ,
+# GROUP_READ,和WORLD_READ，即644权限。
+#INSTALL(FILES files... DESTINATION <dir>
+#         [PERMISSIONS permissions...]
+#         [CONFIGURATIONS [Debug|Release|...]]
+#         [COMPONENT <component>]
+#         [RENAME <name>] [OPTIONAL])
+
+
+# >>非目标文件的可执行程序安装(比如脚本之类) 
+#INSTALL(PROGRAMS files... DESTINATION <dir>
+#     [PERMISSIONS permissions...]
+#     [CONFIGURATIONS [Debug|Release|...]]
+#     [COMPONENT <component>]
+#     [RENAME <name>] [OPTIONAL])
+
+# >>目录的安装
+#INSTALL(DIRECTORY dirs... DESTINATION <dir>
+#     [FILE_PERMISSIONS permissions...]
+#     [DIRECTORY_PERMISSIONS permissions...]
+#     [USE_SOURCE_PERMISSIONS]
+#     [CONFIGURATIONS [Debug|Release|...]]
+#     [COMPONENT <component>]
+#     [[PATTERN <pattern> | REGEX <regex>]
+#      [EXCLUDE] [PERMISSIONS permissions...]] [...])
+
+# 如果目录名不以/结尾，那么这个目录将被安装为目标路径下的abc，如果目录名以/结尾， 
+# 代表将这个目录中的内容安装到目标路径，但不包括这个目录本身
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	# do nothing
+ELSE()
+	install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ 
+		DESTINATION include/imaging_engine
+		)
+ENDIF()
+#########################################################################################################
+
+

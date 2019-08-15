@@ -2,15 +2,28 @@
 #  项目名
 PROJECT(${PROJECT_NAME_DICOM_ENGINE})
 
+# 设置静态库输出路径
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../thirdparty)
+
 ## 第三方库 GFLAGS
 find_package(GFLAGS)
-INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
-LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	INCLUDE_DIRECTORIES("C:/Program Files (x86)/gflags/include")
+	LINK_DIRECTORIES("C:/Program Files (x86)/gflags/lib")
+ELSE()
+	# do nothing
+ENDIF()
+
 
 ## 第三方库 GLOG   GLOG_INCLUDE_DIRS})#这个宏不起作用
 find_package(GLOG 0.4.0)
-INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
-LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
+IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	INCLUDE_DIRECTORIES(${THIRD_LIB_GLOG_INCLUDE_DIRECTORIES})
+	LINK_DIRECTORIES( ${THIRD_LIB_GLOG_LINK_DIRECTORIES})
+ELSE()
+	# do nothing
+ENDIF()
+
 
 ## 第三方库 DCMTK
 find_package(DCMTK 3.6.2)
